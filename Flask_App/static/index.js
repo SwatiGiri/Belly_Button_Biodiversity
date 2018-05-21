@@ -1,7 +1,7 @@
 
 var dropDown = document.getElementById("selDataset");
 var pieChart = document.getElementById("piechart");
-
+var bubbleChart = document.getElementById('bubbleChart');
 // holds the names in an array like [ BB_940 ] etc
 var names = [];
 // gets data from api and populates names variable
@@ -49,8 +49,8 @@ function getSampleData(name){
     // forgive me javascript gods
     Plotly.d3.json(url, function (error, response) {
         // .slice cause we only care about the top 10 otus
-        let otu_ids = response[0]["otu_ids"].slice(0, 10);
-        let sample_values = response[1]["sample_values"].slice(0, 10);
+        let otu_ids = response[0]["otu_ids"];
+        let sample_values = response[1]["sample_values"];
         data["otu_ids"] = otu_ids;
         data["sample_values"] = sample_values;
 
@@ -59,6 +59,7 @@ function getSampleData(name){
 
             updateMetadata(data["metadata"]);
             updatePie(data);
+            updateBubbleChart(data);
         });
     });
 }
@@ -66,9 +67,23 @@ function getSampleData(name){
 // the only function of this 
 function updatePie(data){
     console.log(data);
-    Plotly.restyle(pieChart, "values", [data["sample_values"]] );
-    Plotly.restyle(pieChart, "labels", [data["otu_ids"]] );
+    Plotly.restyle(pieChart, "values", [data["sample_values"].slice(0, 10)] );
+    Plotly.restyle(pieChart, "labels", [data["otu_ids"].slice(0, 10)] );
     console.log("Upated");
+}
+
+
+function updateBubbleChart(data){
+    console.log("updating bubble chart")
+    Plotly.restyle(bubbleChart, 
+        { 
+            x: [data["otu_ids"]], 
+            y: [data["sample_values"]],
+            marker: {
+                size: data["sample_values"],
+                color: data["otu_ids"]
+            }
+        })
 }
 
 function updateMetadata(data){
@@ -81,6 +96,23 @@ function updateMetadata(data){
     }
 }
 
+function initBubbleChart(){
+    let layout = {
+        height: "100%",
+        widht: "100%",
+        title: 'OTU Markers',
+    }
+    var data = [{
+        x: [1, 2, 3, 4],
+        y: [10, 11, 12, 13],
+        mode: 'markers',
+        marker: {
+            size: [40, 60, 80, 100]
+        }
+    }];
+    Plotly.newPlot(bubbleChart, data, layout);
+}
+
 // initializing pie chart with random data
 function initPie(){
     console.log("init pie");
@@ -90,13 +122,14 @@ function initPie(){
       };
     let data = [{ values: [1, 2, 3], type: 'pie'}];
     Plotly.plot(pieChart, data, layout);
-    getSampleData("BB_940");
 }
 
 // calls the functions in order
 function main(){
     initNames();
+    initBubbleChart();
     initPie();
+    getSampleData("BB_940");
 }
 
 main();
