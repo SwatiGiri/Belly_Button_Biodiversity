@@ -98,7 +98,7 @@ def get_filtered_sample_values(sample):
         {
             "sample_values": df[sample].tolist()
         }
-    ]
+    ] 
     
     return jsonify(data)
 

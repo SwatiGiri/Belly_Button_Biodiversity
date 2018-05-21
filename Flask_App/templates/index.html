@@ -23,6 +23,8 @@
 <body>
     <!-- Designing Heading using bootstrap -->
     <div class="container">
+
+        <!-- Header  -->
         <div class="row">
             <div class="well well-lg" align="center">
                 <h1>Belly Button Biodiversity</h1>
@@ -30,16 +32,34 @@
                 <p>Use the interactive chart below to explore the dataset</p>
             </div>
         </div>
+
+        <!-- Actual body -->
         <div class="row">
             <div class="well well-lg" style=background-color:transparent>
                 <div class="row">
-                    <div class="col-md-2">
-                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                    <div class="col-md-3">
+                        <!-- SELECTOR -->
+                        <Strong><h5>SELECT SAMPLE</h5></Strong>
+                        <select id="selDataset" onchange="dropDownListener(this.value)"></select>
+                        <!-- METADATA ABOUT NAME -->
+                        <div id="metadata" style="border-radius: 10px; border-color: lightgrey; border-width: 1px;border-style: solid; padding: 10px; margin: 10px;">
+                            <h5 style="background-color: teal; color: white; padding: 10px;">Sample Metadata</h5>
+                            <div id="metadata_AGE">AGE: </div>
+                            <div id="metadata_BBTYPE">BBTYPE: </div>
+                            <div id="metadata_ETHNICITY">ETHNICITY: </div>
+                            <div id="metadata_GENDER">GENDER: </div>
+                            <div id="metadata_LOCATION">LOCATION: </div>
+                            <div id="metadata_SAMPLEID">SAMPLEID: </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
+                    <!-- Piechart -->
+                    <div class="col-md-9">
                         <div id="piechart"></div>
                     </div>
-                    <div class="col-md-5">dfjhaiudhfaish</div>
+                </div>
+
+                <div class="row">
+                    
                 </div>
             </div>
         </div>
