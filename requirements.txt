@@ -3,3 +3,4 @@ gunicorn
 sqlalchemy
 pandas
 numpy
+flask_sqlalchemy 
